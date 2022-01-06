@@ -7,12 +7,49 @@
 import config from "../config";
 
 export default {
-	register: ({ email, username, password }) => {},
+	register: ({ email, username, password }) => {
+		return new Promise(async (resolve, reject) => {
+			try {
+				// Create a new user and obtain the data from the api
+				const response = await fetch(
+					`${config.apiBase}/users`,
+					{
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+						},
+						body: JSON.stringify({
+							user: { email: email, password: password, display_name: username },
+						}),
+					}
+				);
+				// TODO: pull the token from the header...
+				console.log("Register response", response);
+				resolve({ status: "success" });
+			} catch (e) {
+				console.log("error", e);
+				reject({ status: "error" });
+			}
+		});
+	},
 	signIn: ({ email, password }) => {
 		return new Promise(async (resolve, reject) => {
 			try {
-				// Obtain the data from the api
-				const response = await fetch(`${config.apiBase}/users/sign_in`);
+				// Obtain the user data and token from the api
+				const response = await fetch(
+					`${config.apiBase}/users/sign_in`,
+					{
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+						},
+						body: JSON.stringify({
+							user: { email: email, password: password },
+						}),
+					}
+				);
+				// TODO: pull the token from the header...
+				console.log("Signin response", response);
 				resolve({ status: "success" });
 			} catch (e) {
 				console.log("error", e);
@@ -51,7 +88,9 @@ export default {
 		return new Promise(async (resolve, reject) => {
 			try {
 				// Obtain the data from the api
-				const response = await fetch(`${config.apiBase}/posts/${id}/comments`);
+				const response = await fetch(
+					`${config.apiBase}/posts/${id}/comments`
+				);
 				const comments = await response.json();
 				resolve(comments);
 			} catch (e) {
@@ -60,5 +99,4 @@ export default {
 			}
 		});
 	},
-
 };

@@ -3,17 +3,26 @@
 / 01-06-22
 / Main app entry point
 */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, lazy, Suspense } from "react";
+import { useRoutes, Routes, Route } from "react-router-dom";
 
 import auth from "./services/auth";
 import "./app.css";
 
+import AuthContext from "./services/auth-context";
 
-// TODO: TMP Remove
-// import api from "./services/api";
+// Components
+import Header from "./components/header";
 
-// Create a context to hold the authed user
-const AuthContext = React.createContext(false);
+//Views
+import Feed from "./views/feed";
+// import SigninPage from "./views/signin";
+// import NotFoundPage from "./views/not-found";
+// import RegisterPage from './views/register'
+const SigninPage = lazy(() => import("./views/signin"));
+const RegisterPage = lazy(() => import("./views/register"));
+const NotFoundPage = lazy(() => import("./views/not-found"));
+const PostPage = lazy(() => import("./views/post"));
 
 function App() {
   // Holds inital loading state
@@ -38,13 +47,21 @@ function App() {
       auth.destroy(authCbId);
     };
   }, []);
-
+  
   return (
     <AuthContext.Provider value={loggedIn}>
       <div className="app">
-        {initalized ? null : "Loading"}
-        <br />
-        {loggedIn ? "authed" : "not-authed"}
+        <Header />
+        <Feed />
+        <Suspense fallback={<div>{"Loading..."}</div>}>
+          <Routes>
+            <Route path='/' element={<div /> } exact />
+            <Route path='/signin' element={<SigninPage /> } />
+            <Route path='/register' element={<RegisterPage /> } />
+            <Route path='/post/:id' element={<PostPage /> } />
+            <Route path="*" element={<NotFoundPage /> } />
+          </Routes>
+        </Suspense>
       </div>
     </AuthContext.Provider>
   );

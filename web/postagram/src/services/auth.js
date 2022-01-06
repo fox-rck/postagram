@@ -37,6 +37,11 @@ let auth = {
 	, signOut: ()=> {
 
 	}
+	// Reset the service back to defaults
+	, destroy: ()=> {
+		auth.cb = ()=>{};
+		auth.authedUser = null;
+	}
 }
 
 export default auth;
