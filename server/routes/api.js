@@ -38,7 +38,7 @@ router.get("/:userId/posts", validateUserToken, async (req, res, next) => {
 		// Pull vars from the params
 		{ userId } = req.params;
 
-	console.log(count, next_id, userId);
+	// console.log(count, next_id, userId);
 
 	// Validate the query params
 	validateQuery(res, count);
@@ -64,7 +64,7 @@ router.post("/:userId/posts", validateUserToken, async (req, res, next) => {
 		// Pull vars from the params
 		{ userId } = req.params;
 
-	console.log(title, body, userId);
+	// console.log(title, body, userId);
 
 	// create the new post
 	let newPost;
@@ -89,7 +89,7 @@ router.get("/:userId/posts/:id", validateUserToken, async (req, res, next) => {
 	// Pull vars from the params
 	const { userId, id } = req.params;
 
-	console.log(userId, id);
+	// console.log(userId, id);
 
 	// get all of the post meta for this id
 	let postData;
@@ -115,7 +115,7 @@ router.get(
 			// Pull vars from the params
 			{ userId, id } = req.params;
 
-		console.log(count, next_id, userId, id);
+		// console.log(count, next_id, userId, id);
 
 		// Validate the query params
 		validateQuery(res, count);
@@ -149,7 +149,7 @@ router.post(
 			// Pull vars from the params
 			{ userId, id } = req.params;
 
-		console.log(body, userId, id);
+		// console.log(body, userId, id);
 
 		// add a new comment for this post
 		let newComment;

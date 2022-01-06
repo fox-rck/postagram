@@ -7,6 +7,7 @@
 const config = require('../config'),
 { Pool } = require("pg");
 
+// Create a pool of clients
 const pool = new Pool(config.db);
 
 // the pool will emit an error on behalf of any idle clients

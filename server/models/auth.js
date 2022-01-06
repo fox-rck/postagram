@@ -17,7 +17,7 @@ module.exports = {
 							`INSERT into users (email, password_hash, salt, firstname, lastname) VALUES($1,$2,$3,$4,$5) RETURNING id`,
 							[email, password, salt, firstname, lastname]
 						);
-						console.log(res);
+						// console.log(res);
 						resolve({ ...res.rows[0] });
 					} finally {
 						// release the db connection

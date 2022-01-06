@@ -87,7 +87,7 @@ module.exports = {
 							`INSERT into posts (user_id, title, body) VALUES($1,$2,$3) RETURNING id`,
 							[userId, title, body]
 						);
-						console.log(res);
+						// console.log(res);
 						resolve({ ...res.rows[0] });
 					} finally {
 						// release the db connection
@@ -110,7 +110,7 @@ module.exports = {
 							`INSERT into comments (user_id, post_id, body) VALUES($1,$2,$3) RETURNING id`,
 							[userId, postId, body]
 						);
-						console.log(res);
+						// console.log(res);
 						resolve({ ...res.rows[0] });
 					} finally {
 						// release the db connection
@@ -140,7 +140,7 @@ module.exports = {
 						query += " ORDER BY date_created ASC LIMIT $2";
 
 						const res = await connection.query(query, params);
-						console.log(res.rows);
+						// console.log(res.rows);
 						// get the next mod id if it exists for pagination of the next page
 						const nextMod = res.rows[count];
 

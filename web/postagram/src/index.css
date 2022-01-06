@@ -1,0 +1,23 @@
+/*
+/ Rick Fox
+/ 01-06-22
+/ Index css - root css for entire application
+*/
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+#root { position: fixed; top: 0; bottom: 0; left: 0; right: 0; overflow: hidden; }
+body {
+  margin: 0;
+  font-family: sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}

@@ -6,10 +6,11 @@
 
 const express = require("express"),
   cors = require("cors"),
-  cookieParser = require("cookie-parser");
+  cookieParser = require("cookie-parser"),
+  config = require("./config");
 
 //Get the passed in PORT
-const port = process.env.PORT || 3000;
+const {port} = config;
 
 // Create an express app
 const app = express();
