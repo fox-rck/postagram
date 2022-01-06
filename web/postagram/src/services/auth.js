@@ -16,8 +16,22 @@ let auth = {
 		auth.cb()
 	}
 	// allow a user to authenticate
-	, signin: ()=> {
+	, signIn: (email, password)=> {
+		return new Promise(async (resolve, reject)=>{
+			try {
+				// Try to authenticate the user
+				let authedUser = await api.signin({email, password})
+				// save the authed user to the service
+				auth.authedUser = authedUser;
+				resolve({status: 'success', ...authedUser})
+			} catch (e) {
+				console.log('error', e)
+				// clear the authed user
+				auth.authedUser = null;
+				resolve({status: 'error'})
 
+			}
+		})
 	}
 	// allow a user to de-authenticate
 	, signOut: ()=> {

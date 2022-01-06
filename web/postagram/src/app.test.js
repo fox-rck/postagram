@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import App from './app';
 
-test('renders learn react link', () => {
+test('renders not authed', () => {
   render(<App />);
-  const linkElement = screen.getByText(/Loading/i);
-  expect(linkElement).toBeInTheDocument();
+  const element = screen.getByText(/not-authed/i);
+  expect(element).toBeInTheDocument();
 });
