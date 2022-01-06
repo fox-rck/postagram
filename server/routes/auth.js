@@ -1,17 +1,22 @@
+/*
+/ Rick Fox
+/ 01-06-22
+/ Auth route handlers
+*/
+
 const express = require("express"),
-	db = require('../models/auth');
+	db = require("../models/auth"),
+	utils = require("../token-utils");
 
 // Create a router for these stubs
 let router = express.Router();
 
-const sendErrorResponse = (res, code, message) =>{
-	res
-	.status(code)
-	.send({
+const sendErrorResponse = (res, code, message) => {
+	res.status(code).send({
 		message: message,
 		status: "error",
 	});
-}
+};
 
 //
 // Create a register stub
@@ -29,11 +34,15 @@ router.post("/register", async (req, res, next) => {
 		password_hash = await bcrypt.hash(password, salt);
 	} catch (e) {
 		console.error(e);
-		return sendErrorResponse(res, 401, "Username or password is invalid.")
+		return sendErrorResponse(res, 401, "Username or password is invalid.");
 	}
 
-	// TODO: We should be creating an email flow for verifying
-	// the users email before activating the account
+	/*
+	/ TODO: We should be creating an email flow for verifying
+	/ the users email before activating the account
+	/ instead for demo purposes we will auto login the user
+	*/
+
 	try {
 		// Create the user in the DB
 		const newUser = await db.createUser({
@@ -43,23 +52,55 @@ router.post("/register", async (req, res, next) => {
 			firstname: firstname,
 			lastname: lastname,
 		});
-
 	} catch (e) {
-		return sendErrorResponse(res, 409, "Unable to create user.")
+		return sendErrorResponse(res, 409, "Unable to create user.");
 	}
-	// Return a success
-	res.send({ status: "success" });
+
+	// Make a JWT for the user to auto log them in
+	const jwt_token = utils.generateJwtToken(newUser.id);
+
+	// return jwt token and user_id
+	res.send({ status: "success", token: jwt_token, user_id: newUser.id });
 });
 
 //
 // Login
 //
 router.post("/login", async (req, res, next) => {
-	
-	// Return a success
-	res.send({ status: "success" });
+	// Pull vars from the body
+	const { email, password } = req.body;
+
+	let user;
+	try {
+		// get the user from the DB
+		user = await db.getUserByEmail(email);
+	} catch (e) {
+		console.error(e);
+		return sendErrorResponse(res, 401, "Username or password is invalid.");
+	}
+	console.log("user", user);
+	// ensure there is a user
+	if (!user) {
+		return sendErrorResponse(res, 401, "Username or password is invalid.");
+	}
+
+	// see if password hashes matches
+	const match = await bcrypt.compare(password, user.password_hash);
+
+	if (!match) {
+		console.error("Password does not match");
+		return sendErrorResponse(res, 401, "Username or password is invalid.");
+	}
+
+	const jwt_token = utils.generateJwtToken(user.id);
+
+	/* 
+    /  TODO: We should be using a refresh token here with an expiring JWT token
+    /  for this demo we are going to ignore any JWT expiration in the api
+	*/
+
+	// return jwt token and user_id
+	res.send({ status: "success", token: jwt_token, user_id: user._id });
 });
-
-
 
 module.exports = router;

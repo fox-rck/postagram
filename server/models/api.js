@@ -1,7 +1,7 @@
 /*
 / Rick Fox
 / 01-06-22
-/ Api db controller
+/ Api db model controller
 */
 
 const getConnection = require("../connectors/pool");
@@ -14,23 +14,20 @@ module.exports = {
 				.then(async (connection) => {
 					try {
 						let params = [
-							count + 1, // get one more than needed for the next _id
-						],
-						query = 'SELECT * FROM posts';
-	
+								count + 1, // get one more than needed for the next _id
+							],
+							query = "SELECT * FROM posts";
+
 						if (next_id) {
 							params.push(next_id); // will be the 2 param
-							query += ' WHERE id <= $2';
+							query += " WHERE id <= $2";
 						}
 						// add pagination
-						query += ' ORDER BY date_created DESC LIMIT $1';
-						
+						query += " ORDER BY date_created DESC LIMIT $1";
+
 						// console.log('params', params, query)
 
-						const res = await connection.query(
-							query,
-							params
-						);
+						const res = await connection.query(query, params);
 
 						// get the next mod id if it exists for pagination of the next page
 						const nextMod = res.rows[count];
@@ -46,7 +43,6 @@ module.exports = {
 							next_id: nextMod ? nextMod.id : null,
 							data: res.rows,
 						});
-
 					} finally {
 						// release the db connection
 						connection.release();
@@ -69,7 +65,7 @@ module.exports = {
 							[postId]
 						);
 						// console.log(res.rows);
-						resolve({ next_id: null, data: res.rows[0] });
+						resolve({ data: res.rows[0] });
 					} finally {
 						// release the db connection
 						connection.release();
@@ -89,8 +85,8 @@ module.exports = {
 					try {
 						const res = await connection.query(``, []);
 						console.log(res);
-						res.rows.slice(0, -1); // remove the last one
-						resolve({ next_id: null, data: res.rows });
+						
+						resolve({ ...res });
 					} finally {
 						// release the db connection
 						connection.release();
@@ -109,9 +105,8 @@ module.exports = {
 				.then(async (connection) => {
 					try {
 						const res = await connection.query(``, []);
-						console.log(res.rows);
-						res.rows.slice(0, -1); // remove the last one
-						resolve({ next_id: null, data: res.rows });
+						console.log(res);
+						resolve({...res });
 					} finally {
 						// release the db connection
 						connection.release();
@@ -129,23 +124,17 @@ module.exports = {
 			getConnection()
 				.then(async (connection) => {
 					try {
-						let params = [
-							postId,
-							count + 1
-						],
-						query = 'SELECT * FROM comments WHERE post_id = $1';
-	
+						let params = [postId, count + 1],
+							query = "SELECT * FROM comments WHERE post_id = $1";
+
 						if (next_id) {
 							params.push(next_id); // will be the 2 param
-							query += ' AND id >= $3';
+							query += " AND id >= $3";
 						}
 						// add pagination
-						query += ' ORDER BY date_created ASC LIMIT $2';
+						query += " ORDER BY date_created ASC LIMIT $2";
 
-						const res = await connection.query(
-							query,
-							params
-						);
+						const res = await connection.query(query, params);
 						console.log(res.rows);
 						// get the next mod id if it exists for pagination of the next page
 						const nextMod = res.rows[count];
@@ -167,7 +156,7 @@ module.exports = {
 					}
 				})
 				.catch((e) => {
-					console.log('error', e)
+					console.log("error", e);
 					reject();
 				});
 		});
