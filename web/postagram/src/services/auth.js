@@ -28,7 +28,7 @@ let auth = {
 				console.log('error', e)
 				// clear the authed user
 				auth.authedUser = null;
-				resolve({status: 'error'})
+				reject({status: 'error'})
 
 			}
 		})

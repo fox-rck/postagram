@@ -11,26 +11,54 @@ export default {
 	signIn: ({ email, password }) => {
 		return new Promise(async (resolve, reject) => {
 			try {
+				// Obtain the data from the api
 				const response = await fetch(`${config.apiBase}/users/sign_in`);
 				resolve({ status: "success" });
 			} catch (e) {
 				console.log("error", e);
-				resolve({ status: "error" });
+				reject({ status: "error" });
 			}
 		});
 	},
 
 	getPosts: async ({ pageNumber = 0 }) => {
-		const response = await fetch(`${config.apiBase}/posts`);
-		const posts = await response.json();
-		console.log("posts", posts);
-		return posts;
+		return new Promise(async (resolve, reject) => {
+			try {
+				// Obtain the data from the api
+				const response = await fetch(`${config.apiBase}/posts`);
+				const posts = await response.json();
+				resolve(posts);
+			} catch (e) {
+				console.log("error", e);
+				reject({ status: "error" });
+			}
+		});
 	},
 	getPostById: async (id) => {
-		const response = await fetch(`${config.apiBase}/posts/${id}`);
-		const post = await response.json();
-		console.log("post", post);
-		return post;
+		return new Promise(async (resolve, reject) => {
+			try {
+				// Obtain the data from the api
+				const response = await fetch(`${config.apiBase}/posts/${id}`);
+				const post = await response.json();
+				resolve(post);
+			} catch (e) {
+				console.log("error", e);
+				reject({ status: "error" });
+			}
+		});
 	},
-	getPostByIdComments: ({ pageNumber = 0 }) => {},
+	getPostByIdComments: ({ id, pageNumber = 0 }) => {
+		return new Promise(async (resolve, reject) => {
+			try {
+				// Obtain the data from the api
+				const response = await fetch(`${config.apiBase}/posts/${id}/comments`);
+				const comments = await response.json();
+				resolve(comments);
+			} catch (e) {
+				console.log("error", e);
+				reject({ status: "error" });
+			}
+		});
+	},
+
 };

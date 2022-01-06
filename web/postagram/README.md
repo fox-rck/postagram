@@ -18,3 +18,4 @@ This is the web application for the Postagram application.  It should be run in 
 
 ## NOTES
 
+See https://brivity-react-exercise.herokuapp.com/ for more details on the public API endpoints

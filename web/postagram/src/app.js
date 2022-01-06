@@ -8,6 +8,10 @@ import React, { useEffect, useState } from "react";
 import auth from "./services/auth";
 import "./app.css";
 
+
+// TODO: TMP Remove
+// import api from "./services/api";
+
 // Create a context to hold the authed user
 const AuthContext = React.createContext(false);
 
@@ -24,6 +28,10 @@ function App() {
       setLoggedIn(auth.authedUser ? { ...auth.authedUser } : false);
       // the app has been initalized
       setInitalized(1);
+      // api.getPostByIdComments(2)
+      // .then((posts)=>{
+      //   console.log('main app posts', posts)
+      // })
     });
     return () => {
       // remove the auth service cb
