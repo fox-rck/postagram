@@ -14,11 +14,11 @@ module.exports = {
 				.then(async (connection) => {
 					try {
 						const res = await connection.query(
-							`INSERT into users (email, password_hash, salt, firstname, lastname) VALUES($1,$2,$3,$4,$5)`,
+							`INSERT into users (email, password_hash, salt, firstname, lastname) VALUES($1,$2,$3,$4,$5) RETURNING id`,
 							[email, password, salt, firstname, lastname]
 						);
 						console.log(res);
-						resolve({ ...res });
+						resolve({ ...res.rows[0] });
 					} finally {
 						// release the db connection
 						connection.release();

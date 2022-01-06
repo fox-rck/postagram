@@ -5,6 +5,7 @@
 */
 
 const express = require("express"),
+	bcrypt = require('bcryptjs'),
 	db = require("../models/auth"),
 	utils = require("../token-utils");
 
@@ -28,6 +29,18 @@ router.post("/register", async (req, res, next) => {
 
 	console.log(email, password, req.body);
 
+	// ensure the user doesnt exist
+	try {
+		let user = await db.getUserByEmail(email)
+		if (user.id) {
+			// a user with that email exists
+			return sendErrorResponse(res, 400, "User already exists");
+		}
+	} catch (e) {
+		console.error(e);
+		return sendErrorResponse(res, 400, "User already exists");
+	}
+
 	// generate password_hash
 	try {
 		salt = await bcrypt.genSalt(10);
@@ -42,10 +55,10 @@ router.post("/register", async (req, res, next) => {
 	/ the users email before activating the account
 	/ instead for demo purposes we will auto login the user
 	*/
-
+	let newUser;
 	try {
 		// Create the user in the DB
-		const newUser = await db.createUser({
+		newUser = await db.createUser({
 			email: email,
 			password: password_hash,
 			salt: salt,
@@ -100,7 +113,7 @@ router.post("/login", async (req, res, next) => {
 	*/
 
 	// return jwt token and user_id
-	res.send({ status: "success", token: jwt_token, user_id: user._id });
+	res.send({ status: "success", token: jwt_token, user_id: user.id });
 });
 
 module.exports = router;
