@@ -83,10 +83,12 @@ module.exports = {
 			getConnection()
 				.then(async (connection) => {
 					try {
-						const res = await connection.query(``, []);
+						const res = await connection.query(
+							`INSERT into posts (user_id, title, body) VALUES($1,$2,$3) RETURNING id`,
+							[userId, title, body]
+						);
 						console.log(res);
-						
-						resolve({ ...res });
+						resolve({ ...res.rows[0] });
 					} finally {
 						// release the db connection
 						connection.release();
@@ -104,9 +106,12 @@ module.exports = {
 			getConnection()
 				.then(async (connection) => {
 					try {
-						const res = await connection.query(``, []);
+						const res = await connection.query(
+							`INSERT into comments (user_id, post_id, body) VALUES($1,$2,$3) RETURNING id`,
+							[userId, postId, body]
+						);
 						console.log(res);
-						resolve({...res });
+						resolve({ ...res.rows[0] });
 					} finally {
 						// release the db connection
 						connection.release();
