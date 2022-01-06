@@ -5,12 +5,18 @@
 */
 
 import { Component, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import { useContext } from "react";
 
+import AuthContext from "../services/auth-context";
 import api from "../services/api";
+
 import PostElm from "../components/post";
+import NewComment from "../components/new-comment";
 
 const Post = ({ ...props }) => {
+	const authed = useContext(AuthContext),
+	navigate = useNavigate();
 	// pull the id from the url params
 	const { id } = useParams();
 	const [loadingPost, setLoading] = useState(1);
@@ -30,11 +36,24 @@ const Post = ({ ...props }) => {
 			console.log("error", e);
 		}
 	}, [id]);
-
+	const close = ()=>{ navigate('/'); }
+	const canComment = post && post.user.id;
 	return (
-		<div className="inner-page bg-white">
+		<div className="inner-page p-2">
+			<button className="bg-black opacity-70 fixed block -inset-0 h-full w-full" onClick={close} />
 			{!loadingPost ? (
-				post ? <PostElm post={post} /> : null
+				post ? (
+					<>
+						<PostElm post={post} />
+						<section className="p-4 mx-auto max-w-screen-md">
+							{authed ? (
+								<NewComment id={post.id} />
+							) : (
+								"Sign in to comment"
+							)}
+						</section>
+					</>
+				) : null
 			) : null}
 		</div>
 	);
