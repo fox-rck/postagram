@@ -32,7 +32,6 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
-    document.title = "Postagram";
     // initalize the auth check sequece
     const authCbId = auth.init(() => {
       // set the loggedIn user to the auth service authedUser
