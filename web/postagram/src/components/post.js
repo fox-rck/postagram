@@ -4,20 +4,68 @@
 / Post Component
 */
 
+import { useState, useEffect } from "react";
 import ArticleHeading from "./article-heading";
 import CommentCount from "./comment-count";
 
-const Post = ({ post, isExpanded = 0 }) => {
+const Post = ({
+	post,
+	isExpanded = 0,
+	editing = 0,
+	onChange = (type, e) => {},
+}) => {
+	const otherProps = {};
+	if (editing) {
+		otherProps["contentEditable"] = true;
+		otherProps["suppressContentEditableWarning"] = true;
+	}
+
 	return (
-		<article className={(!isExpanded ? "hover:bg-white bg-blue-100 " : "bg-white post ") + "px-2 py-4 md:px-4 mx-auto max-w-screen-md rounded-2xl border-2 border-gray-200 relative overflow-hidden mb-2"}>
+		<article
+			className={
+				(!isExpanded
+					? "hover:bg-white bg-blue-100 "
+					: "bg-white post ") +
+				"px-2 py-4 md:px-4 mx-auto max-w-screen-md rounded-2xl border-2 border-gray-200 relative overflow-hidden mb-2"
+			}
+		>
 			{post ? (
 				<>
-					<ArticleHeading article={post}  />
-					<h2 className="mb-4 text-xl font-bold">{post.title}</h2>
-					<p className="mb-4 text-lg">{post.body}</p>
-					{!isExpanded ? (
+					<ArticleHeading article={post} />
+					{editing ? (
+						<div className="grow-wrap" data-value={post.title}>
+							<textarea
+								onInput={(e) => {
+									onChange("title", e);
+								}}
+								className="mb-3 text-xl font-bold p-2 w-full"
+								rows={1}
+								value={post.title}
+							/>
+						</div>
+					) : (
+						<h2 className="mb-3 text-xl font-bold p-2">
+							{post.title}
+						</h2>
+					)}
+
+					{editing ? (
+						<div className="grow-wrap" data-value={post.body}>
+							<textarea
+								placeholder={"Type a message"}
+								onInput={(e) => {
+									onChange("body", e);
+								}}
+								className="mb-3 text-lg p-2 rich-text"
+								rows={1}
+								value={post.body}
+							/>
+						</div>
+					) : (
+						<p className="mb-3 text-lg p-2">{post.body}</p>
+					)}
+					{!isExpanded && !editing ? (
 						<>
-							
 							<div className="flex flex-row -mx-4 -mb-4 items-center px-4 py-2 bg-blue-100">
 								<span className="flex-1" />
 								<CommentCount count={post.comment_count} />

@@ -1,22 +1,28 @@
 /*
 / Rick Fox
 / 01-06-22
-/ Register view for showing all blogs
+/ Sign in view for showing all blogs
 */
 
-import { Component } from 'react'
 
+import { useNavigate } from "react-router-dom";
 
-class Register extends Component {
-	constructor(props) {
-		super(props);
-		console.log('Register')
-	}
-	render () {
-		return (
-			'Register'
-		)
-	}
-}
+import RegisterForm from "../components/register-form";
+
+const Register = () => {
+	const navigate = useNavigate();
+	const close = () => {
+		navigate("/");
+	};
+	return (
+		<div className="inner-page">
+			<button
+				className="bg-black opacity-70 fixed block -inset-0 h-full w-full"
+				onClick={close}
+			/>
+			<RegisterForm close={close} />
+		</div>
+	);
+};
 
 export default Register;

@@ -31,6 +31,7 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
+    document.title = "Postagram";
     // initalize the auth check sequece
     const authCbId = auth.init(() => {
       // set the loggedIn user to the auth service authedUser
@@ -47,7 +48,7 @@ function App() {
       auth.destroy(authCbId);
     };
   }, []);
-  
+
   return (
     <AuthContext.Provider value={loggedIn}>
       <div className="app bg-gray-100">
@@ -55,11 +56,11 @@ function App() {
         <Feed />
         <Suspense fallback={<div>{"Loading..."}</div>}>
           <Routes>
-            <Route path='/' element={<div /> } exact />
-            <Route path='/signin' element={<SigninPage /> } />
-            <Route path='/register' element={<RegisterPage /> } />
-            <Route path='/post/:id' element={<PostPage /> } />
-            <Route path="*" element={<NotFoundPage /> } />
+            <Route path="/" element={<div />} exact />
+            <Route path="/signin" element={<SigninPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/post/:id" element={<PostPage />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </Suspense>
       </div>

@@ -4,23 +4,25 @@
 / Sign in view for showing all blogs
 */
 
-import { Component } from 'react'
 
+import { useNavigate } from "react-router-dom";
 
-class Signin extends Component {
-	constructor(props) {
-		super(props);
-		console.log('Signin')
-	}
-	render () {
-		return (
-			<>
-			{'Signin'}
-			
-			{'No account? Create one'}
-			</>
-		)
-	}
-}
+import SigninForm from "../components/signin-form";
+
+const Signin = () => {
+	const navigate = useNavigate();
+	const close = () => {
+		navigate("/");
+	};
+	return (
+		<div className="inner-page">
+			<button
+				className="bg-black opacity-70 fixed block -inset-0 h-full w-full"
+				onClick={close}
+			/>
+			<SigninForm close={close} />
+		</div>
+	);
+};
 
 export default Signin;

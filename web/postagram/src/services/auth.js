@@ -20,10 +20,30 @@ let auth = {
 		return new Promise(async (resolve, reject)=>{
 			try {
 				// Try to authenticate the user
-				let authedUser = await api.signin({email, password})
+				let authedUser = await api.signIn({email, password})
 				// save the authed user to the service
 				auth.authedUser = authedUser;
 				resolve({status: 'success', ...authedUser})
+				auth.cb()
+			} catch (e) {
+				console.log('error', e)
+				// clear the authed user
+				auth.authedUser = null;
+				reject({status: 'error'})
+
+			}
+		})
+	}
+	// allow a user to register
+	, register: (username, email, password)=> {
+		return new Promise(async (resolve, reject)=>{
+			try {
+				// Try to register the user & auto auth
+				let authedUser = await api.register({username, email, password})
+				// save the auto authed user to the service
+				auth.authedUser = authedUser;
+				resolve({status: 'success', ...authedUser})
+				auth.cb()
 			} catch (e) {
 				console.log('error', e)
 				// clear the authed user

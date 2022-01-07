@@ -4,8 +4,8 @@
 / New Comment Component
 */
 
-const NewComment = () =>{
-	return ('NewComment')
-}
+const NewComment = () => {
+	return "NewComment";
+};
 
 export default NewComment;

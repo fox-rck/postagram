@@ -23,9 +23,15 @@ export default {
 						}),
 					}
 				);
+				const authedHeader = response.headers.get('Authorization')
+				// console.log("Register response", response);
+				if (response && response.status != 201) {
+					return reject()
+				}
 				// TODO: pull the token from the header...
-				console.log("Register response", response);
-				resolve({ status: "success" });
+				const user = await response.json();
+				// console.log('registered user', user, authedHeader)
+				resolve({ status: "success", ...user, token: authedHeader });
 			} catch (e) {
 				console.log("error", e);
 				reject({ status: "error" });
@@ -49,8 +55,15 @@ export default {
 					}
 				);
 				// TODO: pull the token from the header...
-				console.log("Signin response", response);
-				resolve({ status: "success" });
+				// console.log("Signin response", response);
+				if (response && response.status != 201) {
+					return reject()
+				}
+
+				const authedHeader = response.headers.get('Authorization')
+				const user = await response.json();
+				// console.log('authed user', user, authedHeader)
+				resolve({ status: "success", ...user, token: authedHeader});
 			} catch (e) {
 				console.log("error", e);
 				reject({ status: "error" });

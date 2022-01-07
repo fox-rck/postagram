@@ -10,6 +10,6 @@ export default {
 
 	styles: {
 		button: 'border font-bold px-4 py-1 rounded-lg',
-		header: 'bg-blue-500 p-4 py-4 mb-2 flex sticky top-0 z-20 shadow-xl'
+		header: 'bg-blue-500 h-16 px-4 flex items-center sticky top-0 z-20 shadow-xl'
 	}
 }

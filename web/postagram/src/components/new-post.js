@@ -4,8 +4,8 @@
 / NewPost Component
 */
 
-const NewPost = () =>{
-	return ('NewPost')
-}
+const NewPost = () => {
+	return "NewPost";
+};
 
 export default NewPost;

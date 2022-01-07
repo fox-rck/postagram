@@ -3,31 +3,36 @@
 / 01-06-22
 / Article Heading Component
 */
+
 import { format } from "date-fns";
 import config from "../config";
 
 const ArticleHeader = ({ article }) => {
-	// set the default date output
-	let dateOut = `created ${article.created_at
-		.replace("T", " ")
-		.replace("Z", "")}`;
-	try {
-		if (article.created_at == article.updated_at) {
-			// try to cast the date string into a date object for formating
-			dateOut = `created ${format(
-				Date.parse(article.created_at.replace("T", " ")),
-				config.dateFormat
-			)}`;
-		} else {
-			// try to cast the date string into a date object for formating
-			dateOut = `updated ${format(
-				Date.parse(article.updated_at.replace("T", " ")),
-				config.dateFormat
-			)}`;
+	const formatDate = (created_at, updated_at) => {
+		let dateOut = `created ${created_at
+			.replace("T", " ")
+			.replace("Z", "")}`;
+		try {
+			if (created_at == updated_at) {
+				// try to cast the date string into a date object for formating
+				dateOut = `created ${format(
+					Date.parse(created_at.replace("T", " ")),
+					config.dateFormat
+				)}`;
+			} else {
+				// try to cast the date string into a date object for formating
+				dateOut = `updated ${format(
+					Date.parse(updated_at.replace("T", " ")),
+					config.dateFormat
+				)}`;
+			}
+		} catch (e) {
+			console.log("date-error", e);
 		}
-	} catch (e) {
-		console.log("date-error", e);
-	}
+		return dateOut;
+	};
+	// set the default date output
+	let dateOut = formatDate(article.created_at, article.updated_at);
 	return (
 		<div className="flex flex-row mb-6 items-center">
 			<img
@@ -37,9 +42,7 @@ const ArticleHeader = ({ article }) => {
 			/>
 			<p className="text-lg ml-2 font-semibold flex-1">
 				{article.user.display_name}
-				<span className="block text-xs font-normal">
-					{dateOut}
-				</span>
+				<span className="block text-xs font-normal">{dateOut}</span>
 			</p>
 		</div>
 	);
