@@ -50,7 +50,7 @@ function App() {
   
   return (
     <AuthContext.Provider value={loggedIn}>
-      <div className="app">
+      <div className="app bg-gray-100">
         <Header />
         <Feed />
         <Suspense fallback={<div>{"Loading..."}</div>}>

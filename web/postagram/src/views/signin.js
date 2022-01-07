@@ -14,7 +14,11 @@ class Signin extends Component {
 	}
 	render () {
 		return (
-			'Signin'
+			<>
+			{'Signin'}
+			
+			{'No account? Create one'}
+			</>
 		)
 	}
 }

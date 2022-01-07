@@ -35,9 +35,9 @@ const ArticleHeader = ({ article }) => {
 				src="https://images.pexels.com/photos/799880/pexels-photo-799880.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
 				alt="Profile image"
 			/>
-			<p className="text-lg ml-2 font-semibold">
+			<p className="text-lg ml-2 font-semibold flex-1">
 				{article.user.display_name}
-				<span className="block text-sm font-normal">
+				<span className="block text-xs font-normal">
 					{dateOut}
 				</span>
 			</p>

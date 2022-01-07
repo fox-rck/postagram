@@ -8,8 +8,19 @@
 @tailwind components;
 @tailwind utilities;
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
-#root { position: fixed; top: 0; bottom: 0; left: 0; right: 0; overflow: hidden; }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+#root {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+}
 body {
   margin: 0;
   font-family: sans-serif;
@@ -18,9 +29,64 @@ body {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
-.inner-page { position: fixed; top: 0; bottom: 0; left: 0; right: 0; overflow-y: auto; z-index: 100; }
+.inner-page {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow-y: auto;
+  z-index: 100;
+}
 
+@keyframes PostIn {
+  0% {
+    top: 50px;
+    opacity: 0;
+  }
+  100% {
+    top: 0;
+    opacity: 1;
+  }
+}
+.post {
+  animation-name: PostIn;
+  animation-duration: 0.3s;
+}
+
+@keyframes CommentsIn {
+  0% {
+    top: 50px;
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    top: 0;
+    opacity: 1;
+  }
+}
+.comments {
+  animation-name: CommentsIn;
+  animation-duration: 0.3s;
+}
+
+@keyframes CommentIn {
+  0% {
+    left: -20px;
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    left: 0;
+    opacity: 1;
+  }
+}
+.comment { animation-name: CommentIn; animation-duration: .3s; animation-delay: .3s; animation-fill-mode: backwards; }
