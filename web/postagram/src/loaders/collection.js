@@ -1,3 +1,9 @@
+/*
+/ Rick Fox
+/ 01-06-22
+/ Collection Loader
+*/
+
 import { Component } from "react";
 
 class Collection extends Component {

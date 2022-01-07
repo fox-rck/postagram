@@ -1,7 +1,7 @@
 /*
 / Rick Fox
 / 01-06-22
-/ SignIn Form Component
+/ Register Form Component
 */
 
 import { useState } from "react";
@@ -15,7 +15,6 @@ const RegisterForm = ({ close, ...props }) => {
         password: "",
         re_password: "",
         username: "",
-        // lastname: ''
     });
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");

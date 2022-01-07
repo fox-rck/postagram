@@ -9,14 +9,12 @@ import { format } from "date-fns";
 import config from "../config";
 
 const ArticleHeader = ({ article }) => {
-	const [dateOut, setDateOut] = useState()
+	const [dateOut, setDateOut] = useState();
 	const formatDate = (created_at, updated_at) => {
 		if (!created_at || !updated_at) {
-			return 'Invalid date';
+			return "Invalid date";
 		}
-		let dOut = `created ${created_at
-			.replace("T", " ")
-			.replace("Z", "")}`;
+		let dOut = `created ${created_at.replace("T", " ").replace("Z", "")}`;
 		try {
 			if (created_at == updated_at) {
 				// try to cast the date string into a date object for formating
@@ -37,11 +35,10 @@ const ArticleHeader = ({ article }) => {
 		return dOut;
 	};
 	// set the default date output
-	useEffect(()=>{
+	useEffect(() => {
 		setDateOut(formatDate(article.created_at, article.updated_at));
-	}, [article])
-	return (
-		article && article.user ?
+	}, [article]);
+	return article && article.user ? (
 		<div className="flex flex-row mb-6 items-center">
 			<img
 				className="inline object-cover w-12 h-12 mr-2 rounded-full border-2 border-gray-500"
@@ -53,8 +50,7 @@ const ArticleHeader = ({ article }) => {
 				<span className="block text-xs font-normal">{dateOut}</span>
 			</p>
 		</div>
-		: null 
-	);
+	) : null;
 };
 
 export default ArticleHeader;

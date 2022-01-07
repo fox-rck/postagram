@@ -1,7 +1,7 @@
 /*
 / Rick Fox
 / 01-06-22
-/ Feed view for showing all blogs
+/ Post Comments 
 */
 
 import { Link } from "react-router-dom";

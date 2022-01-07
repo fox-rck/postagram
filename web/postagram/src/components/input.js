@@ -1,7 +1,7 @@
 /*
 / Rick Fox
 / 01-06-22
-/ Header Component
+/ Input Component
 */
 
 import { useRef } from "react";

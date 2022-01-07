@@ -1,7 +1,7 @@
 /*
 / Rick Fox
 / 01-06-22
-/ Sign in view for showing all blogs
+/ Sign in view
 */
 
 

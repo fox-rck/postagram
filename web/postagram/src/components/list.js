@@ -3,13 +3,14 @@
 / 01-06-22
 / List Component
 */
+
 import { useContext } from "react";
 import AuthContext from "../services/auth-context";
 
 const List = ({
 	type,
 	pages,
-	elms=[],
+	elms = [],
 	hasMore,
 	isLoadingMore,
 	loadMore,
@@ -22,16 +23,9 @@ const List = ({
 	const noListings = pages[0] && pages[0][type].length == 0;
 	return (
 		<section className="">
-			{/*{pages.map((page) => {
-				return page[type].map((el) => {
-					return <Component key={`type-${el.id}`} el={el} />;
-				});
-			})}
-			*/}
 			{elms.map((el) => {
-				return <Component key={el.id}  el={el} />;
+				return <Component key={el.id} el={el} />;
 			})}
-
 			<div className="mb-8" />
 			{hasMore && !isLoadingMore && !error ? (
 				<button

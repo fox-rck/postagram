@@ -174,7 +174,7 @@ export default {
 				const post = await response.json();
 				// ensure we got a post
 				if (!post.post) {
-					return reject()
+					return reject();
 				}
 				resolve(post);
 			} catch (e) {

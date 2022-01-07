@@ -8,7 +8,7 @@ import { useState } from "react";
 import config from "../config";
 import api from "../services/api";
 
-const NewComment = ({id}) => {
+const NewComment = ({ id }) => {
 	const [comment, setComment] = useState("");
 	const [loading, setLoading] = useState(false);
 	const [errorMessage, setErrorMessage] = useState("");
@@ -17,14 +17,12 @@ const NewComment = ({id}) => {
 		setLoading(true);
 		try {
 			let newComment = await api.addPostComment(id, comment);
-			setComment('')
+			setComment("");
 			setLoading(false);
 		} catch (e) {
-			console.log('error', e);
+			console.log("error", e);
 			setErrorMessage("There was an error submitting your comment");
 		}
-		
-		
 	};
 	return (
 		<>

@@ -1,7 +1,7 @@
 /*
 / Rick Fox
 / 01-06-22
-/ Post view for showing all blogs
+/ Post view
 */
 
 import { useEffect, useState } from "react";

@@ -27,18 +27,20 @@ const Header = ({ ...props }) => {
 			<span className="flex-1" />
 			{!authed ? (
 				<>
-				<Link
-					className={config.styles.button.replace('text-white', 'text-blue-500').replace('bg-blue-500', 'bg-white') + ' mr-1 text-blue-500'}
-					to={`/signin`}
-				>
-					{"Sign In"}
-				</Link>
-				<Link
-					className={config.styles.button}
-					to={`/register`}
-				>
-					{"Register"}
-				</Link>
+					<Link
+						className={
+							config.styles.button
+								.replace("text-white", "text-blue-500")
+								.replace("bg-blue-500", "bg-white") +
+							" mr-1 text-blue-500"
+						}
+						to={`/signin`}
+					>
+						{"Sign In"}
+					</Link>
+					<Link className={config.styles.button} to={`/register`}>
+						{"Register"}
+					</Link>
 				</>
 			) : (
 				<>
