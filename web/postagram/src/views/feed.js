@@ -50,9 +50,13 @@ class FeedView extends Collection {
 					elms={elms}
 					loadMore={this.loadNextPage}
 					Component={(props) => {
+						const post = store.getPost(props.el.id)
 						return (
-							<Link to={`/post/${props.el.id}`}>
-								<Post post={store.getPost(props.el.id)} />
+							post.is_deleted ? 
+							null
+							:
+							<Link to={`/post/${post.id}`}>
+								<Post post={post} />
 							</Link>
 						);
 					}}

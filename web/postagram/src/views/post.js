@@ -26,33 +26,42 @@ const Post = ({ ...props }) => {
 	const { id } = useParams();
 
 	const [loadingPost, setLoading] = useState(1);
-	const [updated, setUpdated] = useState(false)
+	const [updated, setUpdated] = useState(false);
 	const [editing, setEditing] = useState(false);
+	const [error, setError] = useState(false);
+	const [showDeleteConfirm, toggleDeleteConfirm] = useState(0);
 	const [post, setPost] = useState(null);
 	const canEdit = authed && post && authed.id == post.user.id;
-	let btnStyles =
-		"px-2 py-1 ml-1 rounded-lg bg-gray-200 hover:bg-gray-500 hover:text-white font-bold";
+	const btnStyles =
+			"px-2 py-1 ml-1 rounded-lg bg-gray-200 hover:bg-gray-500 hover:text-white font-bold",
+		modalClasses =
+			"fixed block -inset-0 h-full w-full z-30" +
+			(showDeleteConfirm ? "" : " hidden");
 
 	useEffect(async () => {
 		// call everytime we get a new post id
 		let cbId;
 		try {
-			cbId = store.addListener(()=>{
-				setUpdated(new Date().getTime())
-			})
+			setError(0);
+			cbId = store.addListener(() => {
+				setUpdated(new Date().getTime());
+			});
 			setLoading(1);
 			let postMod = await api.getPostById(id);
-			// console.log("postMod", postMod.post);
+			console.log("postMod", postMod.post);
+
 			if (postMod && postMod.post) {
 				setPost(postMod.post);
-				setLoading(0);
-			}
+			} 
+			setLoading(0);
 		} catch (e) {
 			console.log("error", e);
+			setLoading(0);
+			setError(1);
 		}
-		return ()=>{
+		return () => {
 			store.removeListener(cbId);
-		}
+		};
 	}, [id]);
 
 	const close = () => {
@@ -69,12 +78,21 @@ const Post = ({ ...props }) => {
 	const save = async () => {
 		if (editing) {
 			console.log("save", editing);
-			let updatedPost = await api.updatePostById(id, editing.title, editing.body)
-			setPost({...updatedPost.post})
+			let updatedPost = await api.updatePostById(
+				id,
+				editing.title,
+				editing.body
+			);
+			setPost({ ...updatedPost.post });
 			setEditing(false);
 		}
 	};
-
+	// Fn to remove the post
+	const deleteFn = async () => {
+		toggleDeleteConfirm(0);
+		let deletedPost = await api.deletePostById(id);
+		close();
+	};
 	let changesMade = editing ? !utils.matches(editing, post) : 0;
 	changesMade =
 		changesMade && editing.title > "" && editing.body > "" ? 1 : 0;
@@ -101,10 +119,7 @@ const Post = ({ ...props }) => {
 					<>
 						<header className={config.styles.header + " mb-4"}>
 							<Link
-								className={
-									config.styles.button +
-									""
-								}
+								className={config.styles.button + ""}
 								to={`/`}
 							>
 								{"Close"}
@@ -160,6 +175,9 @@ const Post = ({ ...props }) => {
 												btnStyles +
 												" bg-red-500 text-white"
 											}
+											onClick={() => {
+												toggleDeleteConfirm(1);
+											}}
 										>
 											{"Delete"}
 										</button>
@@ -206,8 +224,52 @@ const Post = ({ ...props }) => {
 							</section>
 						) : null}
 					</>
-				) : null
+				) : (
+					<h3 className="text-center text-2xl text-gray-700 font-bold my-8 z-30 relative -translate-x-2/4 fixed top-1/4 inset-x-2/4 bg-gray-200 p-4 rounded-2xl relative w-96 -translate-x-2/4 -translate-y-2/4">
+						{
+							"The post you requested can not be loaded at this time."
+						}
+					</h3>
+				)
 			) : null}
+			<div className={modalClasses}>
+				<button
+					className="bg-black h-full w-full absolute inset-0 opacity-70"
+					onClick={() => {
+						toggleDeleteConfirm(0);
+					}}
+				/>
+				<div
+					className={
+						"confirm fixed inset-2/4 bg-gray-200 p-4 rounded-2xl relative w-96 -translate-x-2/4 -translate-y-2/4 z-30"
+					}
+				>
+					<h3 className="text-center text-base font-bold my-8">
+						{"Are you sure you want to delete this post?"}
+					</h3>
+					<div className="flex justify-center mb-4">
+						<button
+							className={
+								config.styles.button.replace(
+									"text-white",
+									"text-gray-800"
+								) + " bg-transparent mr-1"
+							}
+							onClick={() => {
+								toggleDeleteConfirm(0);
+							}}
+						>
+							{"Cancel"}
+						</button>
+						<button
+							className={config.styles.button + " bg-red-500"}
+							onClick={deleteFn}
+						>
+							{"Delete"}
+						</button>
+					</div>
+				</div>
+			</div>
 		</div>
 	);
 };

@@ -5,7 +5,7 @@
 */
 
 import config from "../config";
-import auth from '../services/auth';
+import auth from "../services/auth";
 
 export default {
 	register: ({ email, username, password }) => {
@@ -25,14 +25,17 @@ export default {
 						},
 					}),
 				});
-				const authedHeader = response.headers.get("Authorization");
-				// console.log("Register response", response);
+
+				// verify response status
 				if (response && response.status != 201) {
 					return reject();
 				}
-				// TODO: pull the token from the header...
+
+				// pull the Auth token from the headers
+				const authedHeader = response.headers.get("Authorization");
+
 				const user = await response.json();
-				// console.log('registered user', user, authedHeader)
+
 				resolve({ status: "success", ...user, token: authedHeader });
 			} catch (e) {
 				console.log("error", e);
@@ -56,15 +59,15 @@ export default {
 						}),
 					}
 				);
-				// TODO: pull the token from the header...
-				// console.log("Signin response", response);
+				// verify response status
 				if (response && response.status != 201) {
 					return reject();
 				}
-
+				// pull the Auth token from the headers
 				const authedHeader = response.headers.get("Authorization");
+
 				const user = await response.json();
-				// console.log('authed user', user, authedHeader)
+
 				resolve({ status: "success", ...user, token: authedHeader });
 			} catch (e) {
 				console.log("error", e);
@@ -76,23 +79,22 @@ export default {
 		return new Promise(async (resolve, reject) => {
 			try {
 				// Send the data to the api
-				const response = await fetch(
-					`${config.apiBase}/posts`,
-					{
-						method: "POST",
-						headers: {
-							"Content-Type": "application/json",
-							"Authorization": auth.authedUser.token,
+				const response = await fetch(`${config.apiBase}/posts`, {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: auth.authedUser.token,
+					},
+					body: JSON.stringify({
+						post: {
+							title: title,
+							body: body,
 						},
-						body: JSON.stringify({
-							post: {
-								title: title,
-								body: body
-							},
-						}),
-					}
-				);
+					}),
+				});
+
 				const newPost = await response.json();
+
 				resolve(newPost);
 			} catch (e) {
 				console.log("error", e);
@@ -104,24 +106,45 @@ export default {
 		return new Promise(async (resolve, reject) => {
 			try {
 				// Send the data to the api
-				const response = await fetch(
-					`${config.apiBase}/posts/${id}`,
-					{
-						method: "PATCH",
-						headers: {
-							"Content-Type": "application/json",
-							"Authorization": auth.authedUser.token,
+				const response = await fetch(`${config.apiBase}/posts/${id}`, {
+					method: "PATCH",
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: auth.authedUser.token,
+					},
+					body: JSON.stringify({
+						post: {
+							title: title,
+							body: body,
 						},
-						body: JSON.stringify({
-							post: {
-								title: title,
-								body: body
-							},
-						}),
-					}
-				);
+					}),
+				});
+
 				const newPost = await response.json();
+
 				resolve(newPost);
+			} catch (e) {
+				console.log("error", e);
+				reject({ status: "error" });
+			}
+		});
+	},
+	deletePostById: async (id) => {
+		return new Promise(async (resolve, reject) => {
+			try {
+				// Send the data to the api
+				const response = await fetch(`${config.apiBase}/posts/${id}`, {
+					method: "DELETE",
+					headers: {
+						Authorization: auth.authedUser.token,
+					},
+				});
+				// verify response status
+				if (response && response.status != 204) {
+					return reject();
+				}
+
+				resolve();
 			} catch (e) {
 				console.log("error", e);
 				reject({ status: "error" });
@@ -149,6 +172,10 @@ export default {
 				// Obtain the data from the api
 				const response = await fetch(`${config.apiBase}/posts/${id}`);
 				const post = await response.json();
+				// ensure we got a post
+				if (!post.post) {
+					return reject()
+				}
 				resolve(post);
 			} catch (e) {
 				console.log("error", e);
@@ -175,22 +202,19 @@ export default {
 		return new Promise(async (resolve, reject) => {
 			try {
 				// Send the data to the api
-				const response = await fetch(
-					`${config.apiBase}/comments`,
-					{
-						method: "POST",
-						headers: {
-							"Content-Type": "application/json",
-							"Authorization": auth.authedUser.token,
+				const response = await fetch(`${config.apiBase}/comments`, {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: auth.authedUser.token,
+					},
+					body: JSON.stringify({
+						comment: {
+							post_id: id,
+							content: comment,
 						},
-						body: JSON.stringify({
-							comment: {
-								post_id: id,
-								content: comment
-							},
-						}),
-					}
-				);
+					}),
+				});
 				const newComment = await response.json();
 				resolve(newComment);
 			} catch (e) {

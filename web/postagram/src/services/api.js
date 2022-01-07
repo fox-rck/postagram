@@ -36,6 +36,19 @@ const storeMethods = {
 			}
 		})
 	},
+	deletePostById: async (id)=>{
+		return new Promise(async (resolve, reject)=>{
+			try {
+				const deletedPost = await api.deletePostById(id)
+				// Update the store
+				store.setPost({id: id, is_deleted: 1});
+				resolve()
+			} catch(e){
+				console.log('error', e)
+				reject()
+			}
+		})
+	},
 	getPosts: async (pageNumber)=>{
 		return new Promise(async (resolve, reject)=>{
 			try {
