@@ -184,15 +184,26 @@ const Post = ({ ...props }) => {
 									</>
 								)
 							) : !authed ? (
-								<Link
+								<>
+									<Link
+										className={
+											config.styles.button.replace('bg-blue-500', 'bg-white') +
+											" text-blue-500 bg-white hover:bg-blue-600 hover:text-white mr-1"
+										}
+										to={`/signin?ret_url=/post/${post.id}`}
+									>
+										{"Sign In"}
+									</Link>
+									<Link
 									className={
-										config.styles.button +
-										" bg-blue-500 hover:bg-blue-600 text-white hover:text-white"
+										config.styles.button+
+										" hover:bg-blue-600 hover:text-white"
 									}
-									to={`/signin?ret_url=/post/${post.id}`}
+									to={`/register?ret_url=/post/${post.id}`}
 								>
-									{"Sign In"}
+									{"Register"}
 								</Link>
+								</>
 							) : null}
 						</header>
 						<PostElm

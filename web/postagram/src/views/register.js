@@ -6,13 +6,15 @@
 
 
 import { useNavigate } from "react-router-dom";
-
+import utils from "../utils";
 import RegisterForm from "../components/register-form";
 
 const Register = () => {
 	const navigate = useNavigate();
 	const close = () => {
-		navigate("/");
+		let next = utils.getParameterByName('ret_url');
+		next = next ? next : '/';
+		navigate(next);
 	};
 	return (
 		<div className="inner-page">

@@ -8,7 +8,12 @@ let store = {
 		posts.forEach((post) => {
 			store.posts[post.id] = post;
 		});
-		store.allPosts = [...store.allPosts, ...posts.reverse()]
+		store.allPosts = [...store.allPosts, ...posts]
+		// sort the posts newest to oldest
+		const k = "id";
+		store.allPosts
+		.sort((a, b) => b[k] - a[k]);
+
 		store.emit();
 	},
 	setPost: (post) => {

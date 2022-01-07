@@ -84,26 +84,6 @@ code {
   animation-duration: 0.3s;
 }
 
-/*@keyframes CommentIn {
-  0% {
-    left: -20px;
-    opacity: 0;
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    left: 0;
-    opacity: 1;
-  }
-}
-.comment {
-  animation-name: CommentIn;
-  animation-duration: 0.3s;
-  animation-delay: 0.3s;
-  animation-fill-mode: backwards;
-}
-*/
 
 @keyframes ConfirmIn {
   0% {

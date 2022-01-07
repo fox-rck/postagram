@@ -40,21 +40,16 @@ class FeedView extends Collection {
 		store.removeListener(this.cbId);
 	}
 	render() {
-		let elms = [...store.allPosts].reverse()
-		console.log('elms', elms)
 		return (
 			<section className="p-4 mx-auto max-w-screen-md flex-1 overflow-y-auto">
 				<List
 					type={"posts"}
 					{...this.state}
-					elms={elms}
+					elms={[...store.allPosts]}
 					loadMore={this.loadNextPage}
 					Component={(props) => {
-						const post = store.getPost(props.el.id)
-						return (
-							post.is_deleted ? 
-							null
-							:
+						const post = store.getPost(props.el.id);
+						return post.is_deleted ? null : (
 							<Link to={`/post/${post.id}`}>
 								<Post post={post} />
 							</Link>
