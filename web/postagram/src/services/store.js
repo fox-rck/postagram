@@ -21,6 +21,10 @@ let store = {
 
 		store.emit();
 	},
+	clearPosts: () => {
+		store.allPosts = [];
+		store.emit();
+	},
 	setPost: (post) => {
 		store.posts[post.id] = post;
 		store.emit();

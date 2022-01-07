@@ -1,18 +1,54 @@
-// import { render, screen } from '@testing-library/react';
-// import api from './api';
+import { render, screen } from '@testing-library/react';
+import api from './api';
 
-// test('defaults properly', () => {
-//     expect(api.authedUser).toBe(null);
-//     expect(api.cb).toBeInstanceOf( Function );
-// })
+test('get posts', async () => {
+  try {
+    const res = await api.getPosts(1)
+    expect(res.posts).toBeInstanceOf(Array);
+    expect(res.meta).toBeInstanceOf(Object);
 
-// test('initalizes properly', () => {
-//     const fn = () =>{ },
-//     fn2 = () =>{  };
-//     // set the tmp fn to the service
-//     api.init(fn)
-//     // ensure the fn is set properly to the service
-//     expect(api.cb).toBe( fn );
+  } catch (e) {
+    if (e) {
+        expect(e.status).toBe('error');
+    }
+  }
+})
 
-//     expect(api.cb).not.toBe( fn2 );
-// })
+test('get post by id', async () => {
+  try {
+    const res = await api.getPostById(1)
+    expect(res.post).toBeInstanceOf(Object);
+    expect(res.post.id).toBe(1);
+  } catch (e) {
+    if (e) {
+        expect(e.status).toBe('error');
+    }
+  }
+})
+
+test('get post by id comments', async () => {
+  try {
+    const res = await api.getPostByIdComments(1, 1);
+    expect(res.comments).toBeInstanceOf(Array);
+    expect(res.meta).toBeInstanceOf(Object);
+  } catch (e) {
+    if (e) {
+        expect(e.status).toBe('error');
+    }
+  }
+})
+
+test('delete a post', () => {
+  // TODO:
+  expect(api.deletePostById).toBeInstanceOf(Function);
+})
+
+test('update a post', () => {
+  // TODO:
+   expect(api.updatePostById).toBeInstanceOf(Function);
+})
+
+test('add a post comment', () => {
+  // TODO:
+   expect(api.addPostComment).toBeInstanceOf(Function);
+})

@@ -16,3 +16,13 @@ test('initalizes properly', () => {
 
     expect(auth.cb).not.toBe( fn2 );
 })
+
+test('test signin', async () => {
+  try {
+    const res = await auth.signIn('abc', '123')
+    expect(res.status).toBe('success');
+  } catch (e) {
+    expect(e.status).toBe('error');
+  }
+
+})

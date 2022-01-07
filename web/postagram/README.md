@@ -5,13 +5,13 @@ This is the web application for the Postagram application.  It should be run in 
 
 ## Getting started for DEV
 
-1. Run *npm install* from the root of server
-2. Run *npm run start*
+1. Run *npm install* from the root of web project
+2. Run *npm run start* (this will launch a hot-reload web instance)
 
 
 ## Getting started for PROD
 
-1. Run *npm install* from the root of server
+1. Run *npm install* from the root of web project (this is only necessary if you have not completed this step before)
 2. Run *npm run build*
 
 

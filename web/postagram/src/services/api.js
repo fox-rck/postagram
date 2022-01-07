@@ -20,7 +20,7 @@ const storeMethods = {
 				resolve(newPost)
 			} catch(e){
 				console.log('error', e)
-				reject()
+				reject({status: 'error'})
 			}
 		})
 	},
@@ -33,7 +33,7 @@ const storeMethods = {
 				resolve(updatedPost)
 			} catch(e){
 				console.log('error', e)
-				reject()
+				reject({status: 'error'})
 			}
 		})
 	},
@@ -46,7 +46,7 @@ const storeMethods = {
 				resolve()
 			} catch(e){
 				console.log('error', e)
-				reject()
+				reject({status: 'error'})
 			}
 		})
 	},
@@ -59,7 +59,7 @@ const storeMethods = {
 				resolve(posts)
 			} catch(e){
 				console.log('error', e)
-				reject()
+				reject({status: 'error'})
 			}
 		})
 	},
@@ -72,7 +72,7 @@ const storeMethods = {
 				resolve(post)
 			} catch(e){
 				console.log('error', e)
-				reject()
+				reject({status: 'error'})
 			}
 		})
 	},
@@ -87,7 +87,7 @@ const storeMethods = {
 				resolve(comments)
 			} catch(e){
 				console.log('error', e)
-				reject()
+				reject({status: 'error'})
 			}
 		})
 	},
@@ -102,7 +102,7 @@ const storeMethods = {
 				resolve(newComment)
 			} catch(e){
 				console.log('error', e)
-				reject()
+				reject({status: 'error'})
 			}
 		})
 	}
