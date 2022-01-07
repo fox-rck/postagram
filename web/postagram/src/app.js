@@ -16,14 +16,13 @@ import Header from "./components/header";
 
 //Views
 import Feed from "./views/feed";
-import NewPost from "./views/new";
 
 const SigninPage = lazy(() => import("./views/signin"));
 const RegisterPage = lazy(() => import("./views/register"));
 const NotFoundPage = lazy(() => import("./views/not-found"));
 const PostPage = lazy(() => import("./views/post"));
+const NewPost = lazy(() => import("./views/new"));
 
-// const NewPost = lazy(() => import("./views/new"));
 
 function App() {
   // Holds inital loading state
@@ -38,10 +37,7 @@ function App() {
       setLoggedIn(auth.authedUser ? { ...auth.authedUser } : false);
       // the app has been initalized
       setInitalized(1);
-      // api.getPostByIdComments(2)
-      // .then((posts)=>{
-      //   console.log('main app posts', posts)
-      // })
+
     });
     return () => {
       // remove the auth service cb

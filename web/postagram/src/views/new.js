@@ -63,8 +63,8 @@ const NewPost = ({ ...props }) => {
 				<header className={config.styles.header + " mb-4"}>
 					<Link
 						className={
-							config.styles.button.replace('text-white', 'text-blue-500') +
-							" bg-white hover:bg-blue-600 hover:text-white"
+							config.styles.button.replace('text-white', 'text-blue-500').replace('bg-blue-500', 'bg-white') +
+							" hover:bg-blue-600 hover:text-white"
 						}
 						to={`/`}
 					>
@@ -81,8 +81,9 @@ const NewPost = ({ ...props }) => {
 							btnStyles.replace("bg-gray-200", "bg-green-500") +
 							(!changesMade ? " invisible" : "") +
 							(loading
-								? " bg-green-500 text-white animate-pulse"
+								? " bg-green-500 animate-pulse"
 								: "")
+							+ ' text-white'
 						}
 						onClick={save}
 					>
