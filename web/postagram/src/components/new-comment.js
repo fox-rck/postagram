@@ -18,6 +18,7 @@ const NewComment = ({id}) => {
 		try {
 			let newComment = await api.addPostComment(id, comment);
 			setComment('')
+			setLoading(false);
 		} catch (e) {
 			console.log('error', e);
 			setErrorMessage("There was an error submitting your comment");

@@ -4,24 +4,29 @@
 / Article Heading Component
 */
 
+import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import config from "../config";
 
 const ArticleHeader = ({ article }) => {
+	const [dateOut, setDateOut] = useState()
 	const formatDate = (created_at, updated_at) => {
-		let dateOut = `created ${created_at
+		if (!created_at || !updated_at) {
+			return 'Invalid date';
+		}
+		let dOut = `created ${created_at
 			.replace("T", " ")
 			.replace("Z", "")}`;
 		try {
 			if (created_at == updated_at) {
 				// try to cast the date string into a date object for formating
-				dateOut = `created ${format(
+				dOut = `created ${format(
 					Date.parse(created_at.replace("T", " ")),
 					config.dateFormat
 				)}`;
 			} else {
 				// try to cast the date string into a date object for formating
-				dateOut = `updated ${format(
+				dOut = `updated ${format(
 					Date.parse(updated_at.replace("T", " ")),
 					config.dateFormat
 				)}`;
@@ -29,11 +34,14 @@ const ArticleHeader = ({ article }) => {
 		} catch (e) {
 			console.log("date-error", e);
 		}
-		return dateOut;
+		return dOut;
 	};
 	// set the default date output
-	let dateOut = formatDate(article.created_at, article.updated_at);
+	useEffect(()=>{
+		setDateOut(formatDate(article.created_at, article.updated_at));
+	}, [article])
 	return (
+		article && article.user ?
 		<div className="flex flex-row mb-6 items-center">
 			<img
 				className="inline object-cover w-12 h-12 mr-2 rounded-full border-2 border-gray-500"
@@ -45,6 +53,7 @@ const ArticleHeader = ({ article }) => {
 				<span className="block text-xs font-normal">{dateOut}</span>
 			</p>
 		</div>
+		: null 
 	);
 };
 

@@ -4,24 +4,20 @@
 / Post view for showing all blogs
 */
 
-import { Component, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useContext } from "react";
 
 import config from "../config";
+import utils from "../utils";
 import AuthContext from "../services/auth-context";
 import api from "../services/api";
+import store from "../services/store";
 
 import PostElm from "../components/post";
 import NewComment from "../components/new-comment";
 import CommentCount from "../components/comment-count";
 import CommentList from "./partials/comments";
-
-// TODO: this should go in a util file
-const matches = (obj, source) =>
-	Object.keys(source).every(
-		(key) => obj.hasOwnProperty(key) && obj[key] === source[key]
-	);
 
 const Post = ({ ...props }) => {
 	const authed = useContext(AuthContext),
@@ -30,6 +26,7 @@ const Post = ({ ...props }) => {
 	const { id } = useParams();
 
 	const [loadingPost, setLoading] = useState(1);
+	const [updated, setUpdated] = useState(false)
 	const [editing, setEditing] = useState(false);
 	const [post, setPost] = useState(null);
 	const canEdit = authed && post && authed.id == post.user.id;
@@ -38,7 +35,11 @@ const Post = ({ ...props }) => {
 
 	useEffect(async () => {
 		// call everytime we get a new post id
+		let cbId;
 		try {
+			cbId = store.addListener(()=>{
+				setUpdated(new Date().getTime())
+			})
 			setLoading(1);
 			let postMod = await api.getPostById(id);
 			// console.log("postMod", postMod.post);
@@ -48,6 +49,9 @@ const Post = ({ ...props }) => {
 			}
 		} catch (e) {
 			console.log("error", e);
+		}
+		return ()=>{
+			store.removeListener(cbId);
 		}
 	}, [id]);
 
@@ -66,12 +70,12 @@ const Post = ({ ...props }) => {
 		if (editing) {
 			console.log("save", editing);
 			let updatedPost = await api.updatePostById(id, editing.title, editing.body)
-			setPost({...editing})
+			setPost({...updatedPost.post})
 			setEditing(false);
 		}
 	};
 
-	let changesMade = editing ? !matches(editing, post) : 0;
+	let changesMade = editing ? !utils.matches(editing, post) : 0;
 	changesMade =
 		changesMade && editing.title > "" && editing.body > "" ? 1 : 0;
 
@@ -105,16 +109,17 @@ const Post = ({ ...props }) => {
 							>
 								{"Close"}
 							</Link>
-							{editing ? (
+							<span className="flex-1" />
+							{/*{editing ? (
 								<span className="flex-1 text-center text-lg font-bold text-white">
-									{"Edit Post"}
-									<small className="block">
+									{"Edit"}
+									<small className="block text-xs">
 										{"All fields are required"}
 									</small>
 								</span>
 							) : (
 								<span className="flex-1" />
-							)}
+							)}*/}
 							{canEdit ? (
 								editing ? (
 									<>

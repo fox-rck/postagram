@@ -6,6 +6,7 @@
 
 import { Link } from "react-router-dom";
 import api from "../../services/api";
+import store from "../../services/store";
 import Collection from "../../loaders/collection";
 import List from "../../components/list";
 import Comment from "../../components/comment";
@@ -34,6 +35,7 @@ class CommentsList extends Collection {
 				<List
 					type={"comments"}
 					{...this.state}
+					elms={store.getPost(this.props.id).comments}
 					loadMore={this.loadNextPage}
 					Component={(props) => {
 						return <Comment comment={props.el} />;

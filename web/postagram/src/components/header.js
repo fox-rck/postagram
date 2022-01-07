@@ -28,7 +28,7 @@ const Header = ({ ...props }) => {
 			{!authed ? (
 				<>
 				<Link
-					className={config.styles.button.replace('text-white', 'text-blue-500') + ' mr-1 bg-white text-blue-500'}
+					className={config.styles.button.replace('text-white', 'text-blue-500').replace('bg-blue-500', 'bg-white') + ' mr-1 text-blue-500'}
 					to={`/signin`}
 				>
 					{"Sign In"}

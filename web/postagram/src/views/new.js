@@ -4,8 +4,8 @@
 / Post view for showing all blogs
 */
 
-import { Component, useEffect, useState } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { useContext } from "react";
 
 import config from "../config";
@@ -14,11 +14,6 @@ import api from "../services/api";
 
 import PostElm from "../components/post";
 
-// TODO: this should go in a util file
-const matches = (obj, source) =>
-	Object.keys(source).every(
-		(key) => obj.hasOwnProperty(key) && obj[key] === source[key]
-	);
 
 const defaultPost = {
 	title: "",
@@ -48,10 +43,8 @@ const NewPost = ({ ...props }) => {
 		}
 	};
 	const changesMade = editing.title > "" && editing.body > "";
-	// const changesMade = editing ? !matches(editing, defaultPost) : 0;
 
 	const fieldChanged = (type, e) => {
-		console.log("on Change", type, e.target.value);
 		setEditing((s) => {
 			s[type] = e.target.value;
 			return { ...s };
@@ -79,7 +72,7 @@ const NewPost = ({ ...props }) => {
 					</Link>
 					<span className="flex-1 text-center text-lg font-bold text-white">
 						{"New Post"}
-						<small className="block">
+						<small className="block text-xs">
 							{"All fields are required"}
 						</small>
 					</span>

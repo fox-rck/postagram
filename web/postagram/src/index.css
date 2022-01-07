@@ -84,7 +84,7 @@ code {
   animation-duration: 0.3s;
 }
 
-@keyframes CommentIn {
+/*@keyframes CommentIn {
   0% {
     left: -20px;
     opacity: 0;
@@ -103,7 +103,7 @@ code {
   animation-delay: 0.3s;
   animation-fill-mode: backwards;
 }
-
+*/
 
 
 /* 

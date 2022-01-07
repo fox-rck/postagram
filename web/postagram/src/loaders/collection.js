@@ -10,6 +10,7 @@ class Collection extends Component {
 			page: 1,
 			pages: [],
 			error: false,
+			elms: []
 		};
 	}
 	componentDidMount() {
@@ -18,6 +19,9 @@ class Collection extends Component {
 	// componentDidUpdate(oldProps) {
 
 	// }
+	componentWillUnmount() {
+		this.callApi = null
+	}
 	loadNextPage() {
 		// ensure there are more pages and that we are not already
 		// loading the next page
