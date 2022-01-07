@@ -23,7 +23,6 @@ const NotFoundPage = lazy(() => import("./views/not-found"));
 const PostPage = lazy(() => import("./views/post"));
 const NewPost = lazy(() => import("./views/new"));
 
-
 function App() {
   // Holds inital loading state
   const [initalized, setInitalized] = useState(0);
@@ -37,7 +36,6 @@ function App() {
       setLoggedIn(auth.authedUser ? { ...auth.authedUser } : false);
       // the app has been initalized
       setInitalized(1);
-
     });
     return () => {
       // remove the auth service cb
@@ -51,7 +49,10 @@ function App() {
         <Header />
         {loggedIn ? (
           <div className="max-w-screen-md mx-auto mt-3 p-2 px-4 w-full">
-            <Link to={"/new"} className="block text-lg text-gray-500 p-2 w-full bg-white border border-blue-500 rounded-lg">
+            <Link
+              to={"/new"}
+              className="block text-lg text-gray-500 p-2 w-full bg-white border border-blue-500 rounded-lg"
+            >
               {"Write something..."}
             </Link>
           </div>

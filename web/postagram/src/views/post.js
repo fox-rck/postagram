@@ -52,7 +52,7 @@ const Post = ({ ...props }) => {
 
 			if (postMod && postMod.post) {
 				setPost(postMod.post);
-			} 
+			}
 			setLoading(0);
 		} catch (e) {
 			console.log("error", e);
@@ -187,7 +187,10 @@ const Post = ({ ...props }) => {
 								<>
 									<Link
 										className={
-											config.styles.button.replace('bg-blue-500', 'bg-white') +
+											config.styles.button.replace(
+												"bg-blue-500",
+												"bg-white"
+											) +
 											" text-blue-500 bg-white hover:bg-blue-600 hover:text-white mr-1"
 										}
 										to={`/signin?ret_url=/post/${post.id}`}
@@ -195,14 +198,14 @@ const Post = ({ ...props }) => {
 										{"Sign In"}
 									</Link>
 									<Link
-									className={
-										config.styles.button+
-										" hover:bg-blue-600 hover:text-white"
-									}
-									to={`/register?ret_url=/post/${post.id}`}
-								>
-									{"Register"}
-								</Link>
+										className={
+											config.styles.button +
+											" hover:bg-blue-600 hover:text-white"
+										}
+										to={`/register?ret_url=/post/${post.id}`}
+									>
+										{"Register"}
+									</Link>
 								</>
 							) : null}
 						</header>

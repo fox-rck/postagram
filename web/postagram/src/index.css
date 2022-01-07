@@ -85,7 +85,6 @@ code {
   animation-duration: 0.3s;
 }
 
-
 @keyframes ConfirmIn {
   0% {
     opacity: 0;

@@ -18,7 +18,10 @@ class CommentsList extends Collection {
 		this.callApi = (page) => {
 			return new Promise(async (resolve, reject) => {
 				try {
-					const comments = await api.getPostByIdComments(props.id, page);
+					const comments = await api.getPostByIdComments(
+						props.id,
+						page
+					);
 					if (!comments) {
 						return reject();
 					}

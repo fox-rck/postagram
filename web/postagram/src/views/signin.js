@@ -4,7 +4,6 @@
 / Sign in view
 */
 
-
 import { useNavigate } from "react-router-dom";
 import utils from "../utils";
 import SigninForm from "../components/signin-form";
@@ -12,8 +11,8 @@ import SigninForm from "../components/signin-form";
 const Signin = () => {
 	const navigate = useNavigate();
 	const close = () => {
-		let next = utils.getParameterByName('ret_url');
-		next = next ? next : '/';
+		let next = utils.getParameterByName("ret_url");
+		next = next ? next : "/";
 		navigate(next);
 	};
 	return (

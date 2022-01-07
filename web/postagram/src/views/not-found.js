@@ -4,17 +4,15 @@
 / Default Not found
 */
 
-import { Component } from 'react'
+import { Component } from "react";
 
 class NotFound extends Component {
 	constructor(props) {
 		super(props);
-		console.log('not found')
+		console.log("not found");
 	}
-	render () {
-		return (
-			'Not Found'
-		)
+	render() {
+		return "Not Found";
 	}
 }
 

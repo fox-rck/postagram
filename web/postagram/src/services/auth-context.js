@@ -8,4 +8,4 @@ import React from "react";
 // Create a context to hold the authed user
 const AuthContext = React.createContext(false);
 
-export default AuthContext
+export default AuthContext;

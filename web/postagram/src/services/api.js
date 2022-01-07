@@ -4,107 +4,113 @@
 / Api service
 */
 
-import api from '../connectors/api';
-import store from './store';
-
+import api from "../connectors/api";
+import store from "./store";
 
 const storeMethods = {
-	addPost: async (title, body)=>{
-		return new Promise(async (resolve, reject)=>{
+	addPost: async (title, body) => {
+		return new Promise(async (resolve, reject) => {
 			try {
-				const newPost = await api.addPost({title, body})
+				const newPost = await api.addPost({ title, body });
 				// Add it to the store
 				store.setPost(newPost);
 				// This will push it to the bottom of the available list
 				store.setPosts([newPost.post]);
-				resolve(newPost)
-			} catch(e){
-				console.log('error', e)
-				reject({status: 'error'})
+				resolve(newPost);
+			} catch (e) {
+				console.log("error", e);
+				reject({ status: "error" });
 			}
-		})
+		});
 	},
-	updatePostById: async (id, title, body)=>{
-		return new Promise(async (resolve, reject)=>{
+	updatePostById: async (id, title, body) => {
+		return new Promise(async (resolve, reject) => {
 			try {
-				const updatedPost = await api.updatePostById({id, title, body})
+				const updatedPost = await api.updatePostById({
+					id,
+					title,
+					body,
+				});
 				// Update the store
 				store.setPost(updatedPost.post);
-				resolve(updatedPost)
-			} catch(e){
-				console.log('error', e)
-				reject({status: 'error'})
+				resolve(updatedPost);
+			} catch (e) {
+				console.log("error", e);
+				reject({ status: "error" });
 			}
-		})
+		});
 	},
-	deletePostById: async (id)=>{
-		return new Promise(async (resolve, reject)=>{
+	deletePostById: async (id) => {
+		return new Promise(async (resolve, reject) => {
 			try {
-				const deletedPost = await api.deletePostById(id)
+				const deletedPost = await api.deletePostById(id);
 				// Update the store
-				store.setPost({id: id, is_deleted: 1});
-				resolve()
-			} catch(e){
-				console.log('error', e)
-				reject({status: 'error'})
+				store.setPost({ id: id, is_deleted: 1 });
+				resolve();
+			} catch (e) {
+				console.log("error", e);
+				reject({ status: "error" });
 			}
-		})
+		});
 	},
-	getPosts: async (pageNumber)=>{
-		return new Promise(async (resolve, reject)=>{
+	getPosts: async (pageNumber) => {
+		return new Promise(async (resolve, reject) => {
 			try {
-				const posts = await api.getPosts({pageNumber})
+				const posts = await api.getPosts({ pageNumber });
 				// Add it to the store
 				store.setPosts(posts.posts);
-				resolve(posts)
-			} catch(e){
-				console.log('error', e)
-				reject({status: 'error'})
+				resolve(posts);
+			} catch (e) {
+				console.log("error", e);
+				reject({ status: "error" });
 			}
-		})
+		});
 	},
-	getPostById: async (id)=>{
-		return new Promise(async (resolve, reject)=>{
+	getPostById: async (id) => {
+		return new Promise(async (resolve, reject) => {
 			try {
-				const post = await api.getPostById(id)
+				const post = await api.getPostById(id);
 				// Update the store
 				store.setPost(post.post);
-				resolve(post)
-			} catch(e){
-				console.log('error', e)
-				reject({status: 'error'})
+				resolve(post);
+			} catch (e) {
+				console.log("error", e);
+				reject({ status: "error" });
 			}
-		})
+		});
 	},
-	getPostByIdComments: async (id, pageNumber)=>{
+	getPostByIdComments: async (id, pageNumber) => {
 		if (pageNumber == 0) {
 			store.clearPostComments(id);
 		}
-		return new Promise(async (resolve, reject)=>{
+		return new Promise(async (resolve, reject) => {
 			try {
-				const comments = await api.getPostByIdComments({id, pageNumber})
+				const comments = await api.getPostByIdComments({
+					id,
+					pageNumber,
+				});
 				store.setPostComments(id, comments.comments);
-				resolve(comments)
-			} catch(e){
-				console.log('error', e)
-				reject({status: 'error'})
+				resolve(comments);
+			} catch (e) {
+				console.log("error", e);
+				reject({ status: "error" });
 			}
-		})
+		});
 	},
-	addPostComment: async (id, comment)=>{
-		return new Promise(async (resolve, reject)=>{
+	addPostComment: async (id, comment) => {
+		return new Promise(async (resolve, reject) => {
 			try {
-				const newComment = await api.addPostComment({id, comment})
+				const newComment = await api.addPostComment({ id, comment });
 				// Update the store
 				let post = store.getPost(id).comment_count++;
 				store.setPost(post);
 				store.setPostComments(id, [newComment.comment]);
-				resolve(newComment)
-			} catch(e){
-				console.log('error', e)
-				reject({status: 'error'})
+				resolve(newComment);
+			} catch (e) {
+				console.log("error", e);
+				reject({ status: "error" });
 			}
-		})
-	}
-}
-export default storeMethods
+		});
+	},
+};
+export default storeMethods;
