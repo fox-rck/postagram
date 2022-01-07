@@ -5,7 +5,8 @@ This is the server application for the Postagram application.  It should be run 
 ## Getting started for DEV
 
 1. Run *npm install* from the root of server
-2. Run *npm run start*
+2. Set your enviroment variables ** see ./config.js for the requirements 
+3. Run *npm run start*
 
 
 ## NOTES
