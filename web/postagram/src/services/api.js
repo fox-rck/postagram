@@ -10,6 +10,28 @@ let store = {
 }
 
 const storeMethods = {
+	addPost: async (title, body)=>{
+		return new Promise(async (resolve, reject)=>{
+			try {
+				const newPost = await api.addPost({title, body})
+				resolve(newPost)
+			} catch(e){
+				console.log('error', e)
+				reject()
+			}
+		})
+	},
+	updatePostById: async (id, title, body)=>{
+		return new Promise(async (resolve, reject)=>{
+			try {
+				const updatedPost = await api.updatePostById({id, title, body})
+				resolve(updatedPost)
+			} catch(e){
+				console.log('error', e)
+				reject()
+			}
+		})
+	},
 	getPosts: async (pageNumber)=>{
 		return new Promise(async (resolve, reject)=>{
 			try {
@@ -37,6 +59,17 @@ const storeMethods = {
 			try {
 				const post = await api.getPostByIdComments({id, pageNumber})
 				resolve(post)
+			} catch(e){
+				console.log('error', e)
+				reject()
+			}
+		})
+	},
+	addPostComment: async (id, comment)=>{
+		return new Promise(async (resolve, reject)=>{
+			try {
+				const newComment = await api.addPostComment({id, comment})
+				resolve(newComment)
 			} catch(e){
 				console.log('error', e)
 				reject()

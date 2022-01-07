@@ -7,7 +7,7 @@ class Collection extends Component {
 		this.state = {
 			hasMore: 1,
 			isLoadingMore: 0,
-			page: 0,
+			page: 1,
 			pages: [],
 			error: false,
 		};

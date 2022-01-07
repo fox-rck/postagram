@@ -13,6 +13,7 @@ const RegisterForm = ({ close, ...props }) => {
     const [model, setModel] = useState({
         email: "",
         password: "",
+        re_password: "",
         username: "",
         // lastname: ''
     });
@@ -32,7 +33,9 @@ const RegisterForm = ({ close, ...props }) => {
         e.preventDefault();
         setErrorMessage("");
         setLoading(true);
-
+        if (model.password != model.re_password) {
+            return setErrorMessage("Passwords must match");
+        }
         try {
             await auth.register(model.username, model.email, model.password);
             setLoading(false);
@@ -70,6 +73,16 @@ const RegisterForm = ({ close, ...props }) => {
                 value={model.password}
                 onChange={(e) => fieldChange("password", e)}
             />
+            <div className="mb-2" />
+            {model.password ? (
+                <Input
+                    type="password"
+                    label={"Re-type Password"}
+                    placeholder=""
+                    value={model.re_password}
+                    onChange={(e) => fieldChange("re_password", e)}
+                />
+            ) : null}
             <p className="text-red-900">{errorMessage}</p>
             <div className="flex flex-row mb-6 items-center">
                 <span className="flex-1">

@@ -12,14 +12,9 @@ const Post = ({
 	post,
 	isExpanded = 0,
 	editing = 0,
+	isNew = 0,
 	onChange = (type, e) => {},
 }) => {
-	const otherProps = {};
-	if (editing) {
-		otherProps["contentEditable"] = true;
-		otherProps["suppressContentEditableWarning"] = true;
-	}
-
 	return (
 		<article
 			className={
@@ -31,13 +26,14 @@ const Post = ({
 		>
 			{post ? (
 				<>
-					<ArticleHeading article={post} />
+					{!isNew ? <ArticleHeading article={post} /> : null}
 					{editing ? (
 						<div className="grow-wrap" data-value={post.title}>
 							<textarea
 								onInput={(e) => {
 									onChange("title", e);
 								}}
+								placeholder={"Untitled"}
 								className="mb-3 text-xl font-bold p-2 w-full"
 								rows={1}
 								value={post.title}
@@ -52,7 +48,8 @@ const Post = ({
 					{editing ? (
 						<div className="grow-wrap" data-value={post.body}>
 							<textarea
-								placeholder={"Type a message"}
+								autoFocus={isNew}
+								placeholder={"Write something..."}
 								onInput={(e) => {
 									onChange("body", e);
 								}}

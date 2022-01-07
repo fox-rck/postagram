@@ -57,8 +57,9 @@ code {
   animation-name: PostIn;
   animation-duration: 0.3s;
 }
+
 .rich-text {
-  min-height: 60px;
+  min-height: 100px;
 }
 .rich-text[placeholder]:empty:before {
   content: attr(placeholder);
@@ -102,6 +103,7 @@ code {
   animation-delay: 0.3s;
   animation-fill-mode: backwards;
 }
+
 
 
 /* 

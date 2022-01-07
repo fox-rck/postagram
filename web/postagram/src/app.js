@@ -4,7 +4,7 @@
 / Main app entry point
 */
 import React, { useEffect, useState, lazy, Suspense } from "react";
-import { useRoutes, Routes, Route } from "react-router-dom";
+import { useRoutes, Routes, Route, Link } from "react-router-dom";
 
 import auth from "./services/auth";
 import "./app.css";
@@ -16,13 +16,14 @@ import Header from "./components/header";
 
 //Views
 import Feed from "./views/feed";
-// import SigninPage from "./views/signin";
-// import NotFoundPage from "./views/not-found";
-// import RegisterPage from './views/register'
+import NewPost from "./views/new";
+
 const SigninPage = lazy(() => import("./views/signin"));
 const RegisterPage = lazy(() => import("./views/register"));
 const NotFoundPage = lazy(() => import("./views/not-found"));
 const PostPage = lazy(() => import("./views/post"));
+
+// const NewPost = lazy(() => import("./views/new"));
 
 function App() {
   // Holds inital loading state
@@ -53,11 +54,19 @@ function App() {
     <AuthContext.Provider value={loggedIn}>
       <div className="app bg-gray-100">
         <Header />
+        {loggedIn ? (
+          <div className="max-w-screen-md mx-auto mt-3 p-2 px-4 w-full">
+            <Link to={"/new"} className="block text-lg text-gray-500 p-2 w-full bg-white border border-blue-500 rounded-lg">
+              {"Write something..."}
+            </Link>
+          </div>
+        ) : null}
         <Feed />
         <Suspense fallback={<div>{"Loading..."}</div>}>
           <Routes>
             <Route path="/" element={<div />} exact />
             <Route path="/signin" element={<SigninPage />} />
+            {loggedIn ? <Route path="/new" element={<NewPost />} /> : null}
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/post/:id" element={<PostPage />} />
             <Route path="*" element={<NotFoundPage />} />

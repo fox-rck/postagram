@@ -32,7 +32,7 @@ const Post = ({ ...props }) => {
 	const [loadingPost, setLoading] = useState(1);
 	const [editing, setEditing] = useState(false);
 	const [post, setPost] = useState(null);
-	const canEdit = true; //authed && post && authed.id == post.user.id;
+	const canEdit = authed && post && authed.id == post.user.id;
 	let btnStyles =
 		"px-2 py-1 ml-1 rounded-lg bg-gray-200 hover:bg-gray-500 hover:text-white font-bold";
 
@@ -65,11 +65,15 @@ const Post = ({ ...props }) => {
 	const save = async () => {
 		if (editing) {
 			console.log("save", editing);
+			let updatedPost = await api.updatePostById(id, editing.title, editing.body)
+			setPost({...editing})
 			setEditing(false);
 		}
 	};
 
-	const changesMade = editing ? !matches(editing, post) : 0;
+	let changesMade = editing ? !matches(editing, post) : 0;
+	changesMade =
+		changesMade && editing.title > "" && editing.body > "" ? 1 : 0;
 
 	const fieldChanged = (type, e) => {
 		console.log("on Change", type, e.target.value);
@@ -95,13 +99,22 @@ const Post = ({ ...props }) => {
 							<Link
 								className={
 									config.styles.button +
-									" bg-white hover:bg-blue-600 hover:text-white"
+									""
 								}
 								to={`/`}
 							>
 								{"Close"}
 							</Link>
-							<span className="flex-1" />
+							{editing ? (
+								<span className="flex-1 text-center text-lg font-bold text-white">
+									{"Edit Post"}
+									<small className="block">
+										{"All fields are required"}
+									</small>
+								</span>
+							) : (
+								<span className="flex-1" />
+							)}
 							{canEdit ? (
 								editing ? (
 									<>
@@ -147,6 +160,16 @@ const Post = ({ ...props }) => {
 										</button>
 									</>
 								)
+							) : !authed ? (
+								<Link
+									className={
+										config.styles.button +
+										" bg-blue-500 hover:bg-blue-600 text-white hover:text-white"
+									}
+									to={`/signin?ret_url=/post/${post.id}`}
+								>
+									{"Sign In"}
+								</Link>
 							) : null}
 						</header>
 						<PostElm
@@ -159,14 +182,17 @@ const Post = ({ ...props }) => {
 							<section className="comments p-4 mx-auto max-w-screen-md bg-blue-100 rounded-b-2xl border-2 border-gray-200 relative overflow-hidden mb-2 -mt-7">
 								<div className="flex flex-row mb-6 items-center">
 									<span className="flex-1">
-										{authed ? null : (
+										{!authed ? (
 											<Link
-												className="border border-white bg-blue-500 hover:bg-blue-600 text-white hover:text-white font-bold px-4 py-2 rounded-lg"
-												to={`/signin`}
+												className={
+													config.styles.button +
+													" py-2"
+												}
+												to={`/signin?ret_url=/post/${post.id}`}
 											>
-												{"Sign in to comment"}
+												{"Sign In to comment"}
 											</Link>
-										)}
+										) : null}
 									</span>
 									<CommentCount count={post.comment_count} />
 								</div>

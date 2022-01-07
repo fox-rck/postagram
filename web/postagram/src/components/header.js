@@ -26,12 +26,20 @@ const Header = ({ ...props }) => {
 			</Link>
 			<span className="flex-1" />
 			{!authed ? (
+				<>
 				<Link
-					className="border border-white bg-white hover:bg-blue-600 text-blue-500 hover:text-white font-bold px-4 py-1 rounded-lg"
+					className={config.styles.button.replace('text-white', 'text-blue-500') + ' mr-1 bg-white text-blue-500'}
 					to={`/signin`}
 				>
 					{"Sign In"}
 				</Link>
+				<Link
+					className={config.styles.button}
+					to={`/register`}
+				>
+					{"Register"}
+				</Link>
+				</>
 			) : (
 				<>
 					<span className="font-bold text-white">
