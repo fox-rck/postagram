@@ -6,17 +6,39 @@
 import { useContext } from "react";
 import AuthContext from "../services/auth-context";
 
-const List = ({ pages, hasMore, isLoadingMore, loadMore, error, ...props }) => {
+const List = ({
+	type,
+	pages,
+	hasMore,
+	isLoadingMore,
+	loadMore,
+	error,
+	Component,
+	...props
+}) => {
 	// get the authed user from the context
 	const authed = useContext(AuthContext);
+	const noListings = pages[0] && pages[0][type].length == 0;
 	return (
 		<section className="">
-			{"List"} {pages.length}
-			<br />
-			{hasMore && !isLoadingMore && !error ? "Load More" : null}
-			{isLoadingMore ? "Loading..." : null}
-			<br />
-			{error ? "Something went wrong... Try again" : null}
+			{pages.map((page) => {
+				return page[type].map((el) => {
+					return <Component key={`type-${el.id}`} el={el} />;
+				});
+			})}
+			<div className="mb-8" />
+			{hasMore && !isLoadingMore && !error ? (
+				<button className="text-lg font-bold mx-auto block text-white bg-blue-500 py-4 px-8 rounded-2xl" onClick={loadMore}>
+					{"Load More"}
+				</button>
+			) : null}
+
+			{!hasMore ? <div className="text-base font-bold text-center text-gray-700">{`- No ${noListings ? '' : 'more'} ${type} -`}</div> : null}
+			{isLoadingMore ? <div className="text-base font-bold text-center text-gray-700">{"Loading..."}</div> : null}
+			{error ? (
+				<div className="text-base font-bold text-center">{"Something went wrong... Try again"}</div>
+			) : null}
+			<div className="mb-8" />
 		</section>
 	);
 };

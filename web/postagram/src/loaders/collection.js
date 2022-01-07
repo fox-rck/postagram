@@ -3,6 +3,7 @@ import { Component } from "react";
 class Collection extends Component {
 	constructor(props) {
 		super(props);
+		this.type = 'posts';
 		this.state = {
 			hasMore: 1,
 			isLoadingMore: 0,
@@ -29,13 +30,14 @@ class Collection extends Component {
 			// call the api
 			this.callApi(this.state.page)
 				.then((data) => {
-					if (!data || !data.posts) {
+					if (!data || !data[this.type]) {
 						return this.setState({ error: true, isLoadingMore: 0 });
 					}
+					console.log('data.meta.total_entries', data.meta.total_entries, data.meta.per_page)
 					this.setState({
 						page: this.state.page + 1,
 						isLoadingMore: 0,
-						pages: [...data],
+						pages: [...this.state.pages, data],
 						hasMore: data.meta.total_entries == data.meta.per_page,
 					});
 				})

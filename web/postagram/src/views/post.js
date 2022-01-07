@@ -13,6 +13,7 @@ import api from "../services/api";
 
 import PostElm from "../components/post";
 import NewComment from "../components/new-comment";
+import CommentList from "./partials/comments";
 
 const Post = ({ ...props }) => {
 	const authed = useContext(AuthContext),
@@ -44,13 +45,14 @@ const Post = ({ ...props }) => {
 			{!loadingPost ? (
 				post ? (
 					<>
-						<PostElm post={post} />
-						<section className="p-4 mx-auto max-w-screen-md">
+						<PostElm post={post} isExpanded={1} />
+						<section className="p-4 mx-auto max-w-screen-md bg-blue-100 rounded-2xl border-2 border-gray-200 relative overflow-hidden mb-2">
 							{authed ? (
 								<NewComment id={post.id} />
 							) : (
 								"Sign in to comment"
 							)}
+							<CommentList id={post.id} />
 						</section>
 					</>
 				) : null

@@ -4,22 +4,41 @@
 / Feed view for showing all blogs
 */
 
+import { Link } from "react-router-dom";
+import api from '../services/api'
 import Collection from "../loaders/collection";
 import List from '../components/list'
+import Post from '../components/post'
 
 class FeedView extends Collection {
 	constructor(props) {
 		super(props);
+		this.type = 'posts';
 		this.callApi = (page) => {
 			return new Promise(async (resolve, reject)=>{
-				console.log('Load api page from feed view', page)
-				resolve()
+				try {
+					const posts = await api.getPosts(page);
+					if (!posts) {
+						return reject()
+					}
+					resolve(posts)
+				} catch (e) {
+					console.log('error', e)
+				}
 			})
 		}
 	}
 	render () {
 		return (
-			<List {...this.state} loadMore={this.loadNextPage} />
+			<section className='p-4 mx-auto max-w-screen-md flex-1 overflow-y-auto'>
+				<List type={'posts'} {...this.state} loadMore={this.loadNextPage} Component={(props)=>{
+					return (
+						<Link to={`/post/${props.el.id}`}>
+							<Post post={props.el} />
+						</Link>
+					)
+				}} />
+			</section>
 		)
 	}
 }

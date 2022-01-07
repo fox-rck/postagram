@@ -5,5 +5,6 @@
 */
 
 export default {
-	apiBase: 'https://brivity-react-exercise.herokuapp.com'
+	apiBase: 'https://brivity-react-exercise.herokuapp.com',
+	dateFormat: 'MMM dd, yyyy hh:mm a'
 }
